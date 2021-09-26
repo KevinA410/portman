@@ -102,10 +102,10 @@ public class Controller {
 
         student.setId(dss.txt_id.getText());
         student.setName(dss.txt_name.getText());
-        student.setDegree(dss.txt_degree.getText());
+        student.setDegree(String.valueOf(dss.cmb_degree.getSelectedItem()));
         student.setEmail(dss.txt_email.getText());        
-        student.setGrade(dss.txt_grade.getText());        
-        student.setGroup(dss.txt_group.getText());
+        student.setGrade(String.valueOf(dss.cmb_grade.getSelectedItem()));        
+        student.setGroup(dss.lbl_setGroup.getText() + dss.cmb_group.getSelectedItem());
 
         student.save();
         dss.dispose();

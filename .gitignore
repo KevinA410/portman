@@ -2,3 +2,6 @@
 .settings/
 .vscode/
 target/
+path.txt
+portafolios.json
+studentInfo.json
