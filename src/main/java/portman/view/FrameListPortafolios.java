@@ -28,7 +28,8 @@ public class FrameListPortafolios extends JFrame{
         super();
 
         setTitle("Administrador");
-        setSize(800, 600);
+        setSize(900, 700);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 

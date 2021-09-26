@@ -31,8 +31,11 @@ public class Controller {
     }
     
     public void run() {
-        DialogSaveStudent dss = new DialogSaveStudent(null, true);
+        File studentInfo = new File(Student.path);
+        File json = new File(Portafolios.path);
+
         FrameListPortafolios fls = new FrameListPortafolios();
+        DialogSaveStudent dss = new DialogSaveStudent(fls, true);
         DialogSavePortafolio dsp = new DialogSavePortafolio(fls, true);
 
         dss.setAccept(() -> saveStudent(dss));
@@ -43,21 +46,19 @@ public class Controller {
         );
         dsp.setAccept(() -> savePortafolios(dsp, fls));
 
-        
-        setSaveFolder();
-        File studentInfo = new File(Student.path);
-        File json = new File(Portafolios.path);
-        if(!studentInfo.exists()){
-            dss.setVisible(true);
-        }
-
-        student.get();
-
         if(json.exists()){
             loadPortafolios(fls);
         }
 
         fls.setVisible(true);
+
+        setSaveFolder();
+        
+        if(!studentInfo.exists()){
+            dss.setVisible(true);
+        }
+
+        student.get();
     }
 
     private void setSaveFolder() {

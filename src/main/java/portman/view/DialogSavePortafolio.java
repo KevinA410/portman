@@ -24,7 +24,9 @@ public class DialogSavePortafolio extends GenericDialog {
     public DialogSavePortafolio(JFrame parent, boolean modal) {
         super(parent, modal);
         setTitle("Nuevo Portafolio");
-        setSize(450, 330);
+        pack();
+        setSize(800, 600);
+        setLocationRelativeTo(parent);
 
         btn_add_unit.addActionListener(new ActionListener() {
             @Override

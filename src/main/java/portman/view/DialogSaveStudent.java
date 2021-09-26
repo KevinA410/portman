@@ -18,8 +18,9 @@ public class DialogSaveStudent extends GenericDialog {
     public DialogSaveStudent(JFrame parent, boolean modal) {
         super(parent, modal);
         setTitle("Información Personal");
-        setSize(450, 330);
-        setResizable(false);
+        pack();
+        setSize(450, 350);
+        setLocationRelativeTo(parent);
         initComponents();
     }
 

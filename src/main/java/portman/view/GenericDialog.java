@@ -21,7 +21,7 @@ public class GenericDialog extends JDialog{
 
     public GenericDialog(JFrame parent, boolean modal) {
         super(parent, modal);
-        setLocationRelativeTo(null);
+        setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
         btn_cancel.addActionListener(new ActionListener() {

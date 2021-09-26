@@ -38,7 +38,9 @@ public class DialogFillPortafolio extends GenericDialog{
         }
 
         setTitle("Portafolio");
+        pack();
         setSize(800, 600);
+        setLocationRelativeTo(parent);
 
         initComponents();
     }
