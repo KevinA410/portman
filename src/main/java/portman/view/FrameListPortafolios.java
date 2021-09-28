@@ -1,25 +1,30 @@
 package portman.view;
 
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.awt.Dimension;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import portman.view.components.GPortafolio;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class FrameListPortafolios extends JFrame{
-    private final JLabel lbl_title = new JLabel("Administrador", JLabel.CENTER);
-    public final JButton btn_edit_profile = new JButton("Editar Perfil");
-    public final JButton btn_generate_all = new JButton("Generar Todos");
     public final JButton btn_new_portafolio = new JButton("Nuevo Portafolio");
-    public final JPanel panel_portafolios = new JPanel();
+    public final JButton btn_edit_profile = new JButton("Editar Perfil");
+    public final JButton btn_change_path = new JButton("Cambiar Ruta");
+    public final JButton btn_generate_all = new JButton("Generar Todos");
+    public final JPanel pn_portafolios = new JPanel();
     public final ArrayList<GPortafolio> gportafolios = new ArrayList<>();
+
+    private final JLabel lbl_title = new JLabel("ADMINISTRADOR", JLabel.CENTER);
+    private final int WIDTH = 900;
+    private final int HEIGHT = 700;
     private Runnable editProfile;
     private Runnable generateAll;
     private Runnable newPortafolio;
@@ -27,9 +32,9 @@ public class FrameListPortafolios extends JFrame{
     public FrameListPortafolios() {
         super();
 
-        setTitle("Administrador");
-        setSize(900, 700);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setTitle("Portafolios UPC");
+        setSize(WIDTH, HEIGHT);
+        setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -64,34 +69,40 @@ public class FrameListPortafolios extends JFrame{
     }
 
     private void initComponents() {
-        JPanel root = (JPanel) getContentPane();
-        JPanel container = new JPanel();
-        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JPanel space = new JPanel(new BorderLayout());
+        JPanel pane = (JPanel) getContentPane();
+        JPanel pn_buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JScrollPane scroll = new JScrollPane(pn_portafolios);
 
-        root.setLayout(new BorderLayout());
-        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-        panel_portafolios.setLayout(new BoxLayout(panel_portafolios, BoxLayout.Y_AXIS));
-        panel_portafolios.setBorder(BorderFactory.createTitledBorder("Portafolios"));
+        pane.setLayout(null);
+        pn_portafolios.setLayout(new BoxLayout(pn_portafolios, BoxLayout.Y_AXIS));
 
-        root.add(container, BorderLayout.NORTH);
-        {
-            container.add(lbl_title);
-            container.add(new JLabel(" "));
-            container.add(buttons);
-            {
-                buttons.add(btn_edit_profile);
-                buttons.add(btn_generate_all);
-                buttons.add(btn_new_portafolio);
-            }
-            container.add(new JLabel(" "));
-            container.add(panel_portafolios);
-            {
-                panel_portafolios.add(space);
-                {
-                    space.add(new JLabel(" "), BorderLayout.CENTER);
-                }
-            }
-        }
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scroll.setBorder(BorderFactory.createTitledBorder("PORTAFOLIOS"));
+
+        lbl_title.setBounds(0,0, WIDTH, 25);
+        pn_buttons.setBounds(5, 35, WIDTH-15, 35);
+        scroll.setBounds(5, 80, WIDTH-15, HEIGHT-110);
+
+        pn_buttons.add(btn_new_portafolio);
+        pn_buttons.add(btn_edit_profile);
+        pn_buttons.add(btn_change_path);
+        pn_buttons.add(btn_generate_all);
+
+        pane.add(lbl_title);
+        pane.add(pn_buttons);
+        pane.add(scroll);        
+    }
+
+    public void addGPortafolio(GPortafolio gp) {
+        int width = WIDTH - 50;
+        int height = 35;
+        int y = 5 + (height * gportafolios.size());
+
+        gp.setBounds(5, y, width, height);
+        gp.setMaximumSize(new Dimension(width, height));
+
+        pn_portafolios.add(gp);
+        gportafolios.add(gp);
     }
 }

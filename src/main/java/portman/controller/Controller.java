@@ -6,9 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import javax.swing.JFileChooser;
-
 import portman.model.Portafolio;
 import portman.model.Portafolios;
 import portman.model.Student;
@@ -135,8 +133,8 @@ public class Controller {
 
     private void loadPortafolios(FrameListPortafolios flp) {
         portafolios.get();
-
-        flp.panel_portafolios.removeAll();
+        flp.pn_portafolios.removeAll();
+        flp.pn_portafolios.updateUI();
         flp.gportafolios.clear();
 
         portafolios.forEach((k, v) -> {
@@ -146,11 +144,10 @@ public class Controller {
                 () -> deletePortafolio(v, flp)
             );
 
-            flp.panel_portafolios.add(gp);
-            flp.gportafolios.add(gp);
+            flp.addGPortafolio(gp);
         });
-        
-        flp.panel_portafolios.updateUI();;
+
+        flp.pn_portafolios.updateUI();
     }
 
     private void generatePortafolio(Portafolio p) {
