@@ -3,15 +3,19 @@ package portman.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import portman.controller.AuthController;
 import portman.view.components.GUnit;
 
 public class DialogSavePortafolio extends GenericDialog {
@@ -27,6 +31,12 @@ public class DialogSavePortafolio extends GenericDialog {
         pack();
         setSize(800, 600);
         setLocationRelativeTo(parent);
+
+        txt_professor.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                AuthController.validateName(txt_professor);
+            }
+        });
 
         btn_add_unit.addActionListener(new ActionListener() {
             @Override

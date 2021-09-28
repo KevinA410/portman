@@ -7,6 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import portman.controller.AuthController;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,13 +40,13 @@ public class DialogSaveStudent extends GenericDialog {
 
         txt_id.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
-                validateId();
+                AuthController.validateId(txt_id);
             }
+        });
 
-            public void keyTyped(KeyEvent e) {
-            }
-
-            public void keyPressed(KeyEvent e) {
+        txt_name.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                AuthController.validateName(txt_name);
             }
         });
 
@@ -119,27 +122,5 @@ public class DialogSaveStudent extends GenericDialog {
             }
             panel_group.add(cmb_group, BorderLayout.CENTER);
         }
-    }
-
-    private void validateId() {
-        String numbers = "0123456789";
-        String t = txt_id.getText();
-        String out = "";
-
-        if (t.length() == 0)
-            return;
-
-        for (int i = 0; i < t.length(); i++) {
-            String last = String.valueOf(t.charAt(i));
-            if (numbers.contains(last)) {
-                out += last;
-            }
-        }
-
-        if (out.length() > 6) {
-            out = out.substring(0, 6);
-        }
-
-        txt_id.setText(out);
     }
 }

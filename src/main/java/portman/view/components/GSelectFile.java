@@ -56,5 +56,6 @@ public class GSelectFile extends JPanel {
         add(lbl_tag, BorderLayout.WEST);
         add(txt_file, BorderLayout.CENTER);
         add(btn_choose, BorderLayout.EAST);
+        txt_file.setEnabled(false);
     }
 }
