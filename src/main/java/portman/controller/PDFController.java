@@ -102,7 +102,6 @@ public class PDFController {
     public void createPortafolio() {
         PDFMergerUtility mu = new PDFMergerUtility();
         String basePath = savePath + "/." + portafolio.getSubject();
-        System.out.println(savePath);
         File portafolios = new File(savePath);
         File folder = new File(basePath);
 
@@ -117,8 +116,13 @@ public class PDFController {
         try {
             mu.addSource(createCover(basePath));
             mu.addSource(createMision(basePath));
-            mu.addSource(new File(portafolio.getFrame()));
-            mu.addSource(new File(portafolio.getDiagnostic()));
+            if(portafolio.getFrame() != null && portafolio.getFrame() != ""){
+                mu.addSource(new File(portafolio.getFrame()));
+            }
+
+            if(portafolio.getDiagnostic() != null && portafolio.getDiagnostic() != ""){
+                mu.addSource(new File(portafolio.getDiagnostic()));
+            }
 
             for (int i = 0, n = portafolio.getNumberOfUnits(); i < n; i++) {
                 Unit u = portafolio.getUnit(i);
@@ -128,7 +132,7 @@ public class PDFController {
                     mu.addSource(createUnitSeparator(u.getNumber(), u.getName(), basePath));
                 }
 
-                for (int j = 0, m = u.getNumberOfActivities(); j < m; j++) {
+                for (int j = 0; j < activities; j++) {
                     mu.addSource(new File(u.getActivity(j)));
                 }
             }
