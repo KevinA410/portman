@@ -17,6 +17,7 @@ import portman.view.DialogSaveStudent;
 import portman.view.FrameListPortafolios;
 import portman.view.components.GPortafolio;
 import portman.view.components.GSelectFile;
+import portman.view.components.GUnit;
 
 public class Controller {
     private static String basePath = "path.txt";
@@ -43,7 +44,7 @@ public class Controller {
         dsp.setAccept(() -> savePortafolios(dsp, fls));
 
         if (json.exists()) {
-            loadPortafolios(fls);
+            loadPortafolios(fls, dsp);
         }
 
         fls.setVisible(true);
@@ -120,19 +121,30 @@ public class Controller {
     }
 
     private void savePortafolios(DialogSavePortafolio dsp, FrameListPortafolios flp) {
-        Portafolio portafolio = new Portafolio();
+        String key = dsp.txt_subject.getText();
+        Portafolio p = new Portafolio();
 
-        portafolio.setSubject(dsp.txt_subject.getText());
-        portafolio.setProfessor(dsp.txt_professor.getText());
-
-        for (int i = 0, n = dsp.gunits.size(); i < n; i++) {
-            portafolio.addtUnit(new Unit(i + 1, dsp.gunits.get(i).getName()));
+        if(portafolios.containsKey(key)) {
+            p = portafolios.get(key);
+            portafolios.remove(key);
         }
 
-        portafolios.put(portafolio.getSubject(), portafolio);
+        p.setSubject(key);
+        p.setProfessor(dsp.txt_professor.getText());
+
+        for (int i = 0, n = dsp.gunits.size(); i < n; i++) {
+            String name = dsp.gunits.get(i).getName();
+            if(i >= p.getNumberOfUnits()) {
+                p.addtUnit(new Unit(i + 1, name));
+            } else {
+                p.getUnit(i).setName(name);
+            }
+        }
+
+        portafolios.put(key, p);
         portafolios.save();
 
-        loadPortafolios(flp);
+        loadPortafolios(flp, dsp);
 
         dsp.dispose();
     }
@@ -160,7 +172,26 @@ public class Controller {
         pdfc.createPortafolio();
     }
 
-    private void editPortafolio(Portafolio p, FrameListPortafolios flp) {
+    private void editPortafolio(Portafolio p, DialogSavePortafolio dsp) {
+        dsp.gunits.clear();
+        dsp.pn_units.removeAll();
+        dsp.pn_units.updateUI();
+
+        dsp.txt_subject.setText(p.getSubject());
+        dsp.txt_professor.setText(p.getProfessor());
+
+        for(int i = 0; i < p.getNumberOfUnits(); i++) {
+            Unit u = p.getUnit(i);
+            GUnit gunit = new GUnit(u.getNumber());
+            gunit.setName(u.getName());
+            dsp.addUnit(gunit);
+        }
+
+        dsp.setVisible(true);
+
+    }
+
+    private void addPortafolio(Portafolio p, FrameListPortafolios flp) {
         DialogFillPortafolio dfp = new DialogFillPortafolio(flp, true, p);
         dfp.setAccept(() -> saveActivities(p, dfp));
 
@@ -181,10 +212,10 @@ public class Controller {
         dfp.setVisible(true);
     }
 
-    private void deletePortafolio(Portafolio p, FrameListPortafolios flp) {
+    private void deletePortafolio(Portafolio p, FrameListPortafolios flp, DialogSavePortafolio dsp) {
         portafolios.remove(p.getSubject());
         portafolios.save();
-        loadPortafolios(flp);
+        loadPortafolios(flp, dsp);
     }
 
     // Auxiliar funcions
@@ -223,15 +254,15 @@ public class Controller {
         }
     }
 
-    private void loadPortafolios(FrameListPortafolios flp) {
+    private void loadPortafolios(FrameListPortafolios flp, DialogSavePortafolio dsp) {
         portafolios.get();
         flp.pn_portafolios.removeAll();
         flp.pn_portafolios.updateUI();
         flp.gportafolios.clear();
 
         portafolios.forEach((k, v) -> {
-            GPortafolio gp = new GPortafolio(v.getSubject(), () -> generatePortafolio(v), () -> editPortafolio(v, flp),
-                    () -> deletePortafolio(v, flp));
+            GPortafolio gp = new GPortafolio(v.getSubject(), () -> generatePortafolio(v), () -> editPortafolio(v, dsp),
+                   () -> addPortafolio(v, flp), () -> deletePortafolio(v, flp, dsp));
 
             flp.addGPortafolio(gp);
         });

@@ -12,9 +12,10 @@ public class GPortafolio extends JPanel {
     private final JLabel lbl_subject = new JLabel();
     private final JButton btn_generate = new JButton("Generar");
     private final JButton btn_edit = new JButton("Editar");
+    private final JButton btn_add = new JButton("Agregar");
     private final JButton btn_delete = new JButton("Borrar");
 
-    public GPortafolio(String subject, Runnable generate, Runnable edit, Runnable delete) {
+    public GPortafolio(String subject, Runnable generate, Runnable edit, Runnable add, Runnable delete) {
         super();
         lbl_subject.setText(subject + " ");
 
@@ -29,6 +30,13 @@ public class GPortafolio extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 edit.run();
+            }
+        });
+
+        btn_add.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                add.run();
             }
         });
 
@@ -51,6 +59,7 @@ public class GPortafolio extends JPanel {
         {
             buttons.add(btn_generate);
             buttons.add(btn_edit);
+            buttons.add(btn_add);
             buttons.add(btn_delete);
         }
     }

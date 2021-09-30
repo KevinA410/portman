@@ -25,4 +25,8 @@ public class GUnit extends JPanel {
     public String getName() {
         return txt_name.getText();
     }
+
+    public void setName(String name) {
+        txt_name.setText(name);
+    }
 }

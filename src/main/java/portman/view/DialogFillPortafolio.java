@@ -125,7 +125,7 @@ public class DialogFillPortafolio extends GenericDialog {
     }
 
     public void addGsf(GSelectFile gsf, int index){
-        gsf.setMaximumSize(new Dimension(WIDTH, 40));
+        gsf.setMaximumSize(new Dimension(WIDTH, 45));
 
         units[index].add(gsf);
         pn_units[index].add(gsf);

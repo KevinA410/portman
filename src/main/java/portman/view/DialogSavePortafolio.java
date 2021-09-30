@@ -46,7 +46,8 @@ public class DialogSavePortafolio extends GenericDialog {
         btn_add_unit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addUnit();
+                GUnit gunit = new GUnit(gunits.size() + 1);
+                addUnit(gunit);
             }
         });
 
@@ -104,15 +105,12 @@ public class DialogSavePortafolio extends GenericDialog {
         pane.add(scroll, BorderLayout.CENTER);
     }
 
-    private void addUnit() {
-        int index = gunits.size() + 1;
-        GUnit u = new GUnit(index);
+    public void addUnit(GUnit gunit) {
+        gunit.setMaximumSize(new Dimension(WIDTH, 35));
 
-        u.setMaximumSize(new Dimension(WIDTH, 35));
-
-        pn_units.add(u);
+        pn_units.add(gunit);
         pn_units.updateUI();
-        gunits.add(u);
+        gunits.add(gunit);
     }
 
     private void removeUnit() {
