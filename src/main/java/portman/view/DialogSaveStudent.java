@@ -15,10 +15,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class DialogSaveStudent extends GenericDialog {
-    private final String[] keys = { "M", "B", "E", "S", "A", "G" };
-    private final String[] groups = { "1", "2", "3", "4" };
-    private final String[] grades = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
-    private final String[] degrees = { "Mecatrónica", "Biotecnología", "Electrónica y Telecomunicaciones", "Software",
+    public final String[] keys = { "M", "B", "E", "S", "A", "G" };
+    public final String[] groups = { "1", "2", "3", "4" };
+    public final String[] grades = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
+    public final String[] degrees = { "Mecatrónica", "Biotecnología", "Electrónica y Telecomunicaciones", "Software",
             "Mecánica Automotríz", "Geofísica Petrolera" };
     public final JTextField txt_id = new JTextField();
     public final JTextField txt_name = new JTextField();

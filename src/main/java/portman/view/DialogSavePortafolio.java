@@ -26,7 +26,7 @@ public class DialogSavePortafolio extends GenericDialog {
     public final JButton btn_add_unit = new JButton("+");
     public final JButton btn_remove_unit = new JButton("-");
     public final ArrayList<GUnit> gunits = new ArrayList<>();
-    private final JPanel pn_units = new JPanel();
+    public final JPanel pn_units = new JPanel();
     private final int WIDTH = 800;
     private final int HEIGHT = 600;
 

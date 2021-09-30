@@ -12,6 +12,7 @@ import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 import portman.model.Portafolio;
 import portman.model.Student;
 import portman.model.Unit;
+import org.apache.commons.io.FileUtils;
 
 public class PDFController {
     private String[] months = { "enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre",
@@ -31,9 +32,7 @@ public class PDFController {
         LocalDateTime d = LocalDateTime.now();
 
         try {
-            // PDDocument pDDocument = Loader.loadPDF(new File(path));
             PDDocument pDDocument = Loader.loadPDF(cover);
-
             PDAcroForm pDAcroForm = pDDocument.getDocumentCatalog().getAcroForm();
 
             PDField txtStudent = pDAcroForm.getField("txt_student");
@@ -64,11 +63,9 @@ public class PDFController {
     }
 
     public File createMision(String path) {
-        InputStream mision = PDFController.class.getClassLoader().getResourceAsStream("portman/layout/mision.pdf");
-
         try {
+            InputStream mision = PDFController.class.getClassLoader().getResourceAsStream("portman/layout/mision.pdf");
             PDDocument pDDocument = Loader.loadPDF(mision);
-            // PDAcroForm pDAcroForm = pDDocument.getDocumentCatalog().getAcroForm();
 
             pDDocument.save(path + "/mision.pdf");
             pDDocument.close();
@@ -81,7 +78,8 @@ public class PDFController {
     }
 
     public File createUnitSeparator(int number, String name, String path) {
-        InputStream unitSeparator = PDFController.class.getClassLoader().getResourceAsStream("portman/layout/unit_separator.pdf");
+        InputStream unitSeparator = PDFController.class.getClassLoader()
+                .getResourceAsStream("portman/layout/unit_separator.pdf");
         String save = path + "/unit" + number + ".pdf";
         try {
             PDDocument pDDocument = Loader.loadPDF(unitSeparator);
@@ -89,8 +87,6 @@ public class PDFController {
 
             PDField txtNumber = pDAcroForm.getField("txt_number");
             PDField txtName = pDAcroForm.getField("txt_name");
-
-            System.out.println(number + " " + name);
 
             txtNumber.setValue(String.valueOf(number));
             txtName.setValue(name);
@@ -106,33 +102,52 @@ public class PDFController {
     public void createPortafolio() {
         PDFMergerUtility mu = new PDFMergerUtility();
         String basePath = savePath + "/." + portafolio.getSubject();
+        System.out.println(savePath);
+        File portafolios = new File(savePath);
         File folder = new File(basePath);
 
-        if(!folder.exists()){
+        if (!portafolios.exists()) {
+            portafolios.mkdir();
+        }
+
+        if (!folder.exists()) {
             folder.mkdir();
         }
 
         try {
-
             mu.addSource(createCover(basePath));
             mu.addSource(createMision(basePath));
             mu.addSource(new File(portafolio.getFrame()));
             mu.addSource(new File(portafolio.getDiagnostic()));
 
-            for(int i = 0, n = portafolio.getNumberOfUnits(); i < n; i++) {
+            for (int i = 0, n = portafolio.getNumberOfUnits(); i < n; i++) {
                 Unit u = portafolio.getUnit(i);
-                mu.addSource(createUnitSeparator(u.getNumber(), u.getName(), basePath));
-                
-                for(int j = 0, m = u.getNumberOfActivities(); j < m; j++) {
+                int activities = u.getNumberOfActivities();
+
+                if (activities > 0) {
+                    mu.addSource(createUnitSeparator(u.getNumber(), u.getName(), basePath));
+                }
+
+                for (int j = 0, m = u.getNumberOfActivities(); j < m; j++) {
                     mu.addSource(new File(u.getActivity(j)));
                 }
             }
 
-            mu.setDestinationFileName(savePath + "/" + portafolio.getSubject() + ".pdf");
+            mu.setDestinationFileName(savePath + "/" + generatePortafolioName() + ".pdf");
             mu.mergeDocuments(null);
+            FileUtils.deleteDirectory(folder);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private String generatePortafolioName() {
+        LocalDateTime d = LocalDateTime.now();
+        int m = d.getMonthValue();
+        String period = "0" + (m <= 4 ? "1" : m <= 8 ? "2" : "3");
+
+        return student.getId() + "-" + student.getGroup() + "-" + student.getGrade() + "-" + d.getYear() + period + "-"
+                + portafolio.getSubject();
     }
 
     public void setStudent(Student student) {

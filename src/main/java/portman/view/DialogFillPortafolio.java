@@ -103,11 +103,7 @@ public class DialogFillPortafolio extends GenericDialog {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     GSelectFile gsf = new GSelectFile("Actividad " + (units[index].size() + 1));
-                    gsf.setMaximumSize(new Dimension(WIDTH, 40));
-
-                    units[index].add(gsf);
-                    pn_unit.add(gsf);
-                    pn_unit.updateUI();
+                    addGsf(gsf, index);
                 }
             });
 
@@ -126,5 +122,13 @@ public class DialogFillPortafolio extends GenericDialog {
                 }
             });
         }
+    }
+
+    public void addGsf(GSelectFile gsf, int index){
+        gsf.setMaximumSize(new Dimension(WIDTH, 40));
+
+        units[index].add(gsf);
+        pn_units[index].add(gsf);
+        pn_units[index].updateUI();
     }
 }

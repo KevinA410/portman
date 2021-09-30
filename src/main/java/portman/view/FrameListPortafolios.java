@@ -28,6 +28,7 @@ public class FrameListPortafolios extends JFrame{
     private Runnable editProfile;
     private Runnable generateAll;
     private Runnable newPortafolio;
+    private Runnable changePath;
 
     public FrameListPortafolios() {
         super();
@@ -59,13 +60,21 @@ public class FrameListPortafolios extends JFrame{
             }
         });
 
+        btn_change_path.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                changePath.run();
+            }
+        });
+
         initComponents();
     }
 
-    public void setRunnables(Runnable editProfile, Runnable generateAll, Runnable newPortafolio) {
+    public void setRunnables(Runnable editProfile, Runnable generateAll, Runnable newPortafolio, Runnable changePath) {
         this.editProfile = editProfile;
         this.generateAll = generateAll;
         this.newPortafolio = newPortafolio;
+        this.changePath = changePath;
     }
 
     private void initComponents() {
