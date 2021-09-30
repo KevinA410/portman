@@ -7,9 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import portman.controller.AuthController;
-
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +15,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class DialogSaveStudent extends GenericDialog {
-    private final String[] keys = { "M", "B", "E", "SW", "A", "G" };
+    private final String[] keys = { "M", "B", "E", "S", "A", "G" };
     private final String[] groups = { "1", "2", "3", "4" };
     private final String[] grades = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
     private final String[] degrees = { "Mecatrónica", "Biotecnología", "Electrónica y Telecomunicaciones", "Software",
@@ -63,7 +61,7 @@ public class DialogSaveStudent extends GenericDialog {
     }
 
     protected void initComponents() {
-        lbl_title.setText("Información Personal");
+        lbl_title.setText("INFORMACIÓN PERSONAL");
 
         JLabel lbl_id = new JLabel("Matricula ");
         JLabel lbl_name = new JLabel("Nombre ");
@@ -112,7 +110,6 @@ public class DialogSaveStudent extends GenericDialog {
             panel_grade.add(cmb_grade, BorderLayout.CENTER);
 
         }
-        // pn_main.add(new JLabel(" "));
         panel_container.add(panel_group);
         {
             panel_group.add(aux_group, BorderLayout.WEST);

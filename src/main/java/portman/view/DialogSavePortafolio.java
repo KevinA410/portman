@@ -5,16 +5,18 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-
+import java.awt.Dimension;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import portman.controller.AuthController;
 import portman.view.components.GUnit;
 
@@ -24,12 +26,15 @@ public class DialogSavePortafolio extends GenericDialog {
     public final JButton btn_add_unit = new JButton("+");
     public final JButton btn_remove_unit = new JButton("-");
     public final ArrayList<GUnit> gunits = new ArrayList<>();
+    private final JPanel pn_units = new JPanel();
+    private final int WIDTH = 800;
+    private final int HEIGHT = 600;
 
     public DialogSavePortafolio(JFrame parent, boolean modal) {
         super(parent, modal);
-        setTitle("Nuevo Portafolio");
+        setTitle("NUEVO PORTAFOLIO");
         pack();
-        setSize(800, 600);
+        setSize(WIDTH, HEIGHT);
         setLocationRelativeTo(parent);
 
         txt_professor.addKeyListener(new KeyAdapter() {
@@ -56,7 +61,7 @@ public class DialogSavePortafolio extends GenericDialog {
     }
 
     private void initComponents() {
-        lbl_title.setText("Nuevo Portafolio");
+        lbl_title.setText("NUEVO PORTAFOLIO");
 
         JLabel lbl_subject = new JLabel("Asignatura ");
         JLabel lbl_professor = new JLabel("Profesor ");
@@ -67,8 +72,14 @@ public class DialogSavePortafolio extends GenericDialog {
         JPanel panel_add_unit = new JPanel(new BorderLayout());
         JPanel panel_buttons_unit = new JPanel(new FlowLayout());
 
+        pn_units.setLayout(new BoxLayout(pn_units, BoxLayout.Y_AXIS));
+
         panel_add_unit.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
-    
+        JScrollPane scroll = new JScrollPane(pn_units);
+
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
         pn_main.add(panel_subject);
         {
             panel_subject.add(lbl_subject, BorderLayout.WEST);
@@ -90,25 +101,29 @@ public class DialogSavePortafolio extends GenericDialog {
                 panel_buttons_unit.add(btn_remove_unit);
             }
         }
+        pane.add(scroll, BorderLayout.CENTER);
     }
 
     private void addUnit() {
         int index = gunits.size() + 1;
         GUnit u = new GUnit(index);
 
+        u.setMaximumSize(new Dimension(WIDTH, 35));
+
+        pn_units.add(u);
+        pn_units.updateUI();
         gunits.add(u);
-        pn_main.add(u);
-        pn_main.updateUI();
     }
 
     private void removeUnit() {
         int size = gunits.size();
 
-        if (size < 1) return;
+        if (size < 1)
+            return;
 
-        pn_main.remove(gunits.get(size - 1));
+        pn_units.remove(gunits.get(size - 1));
         gunits.remove(size - 1);
-        pn_main.revalidate();
-        pn_main.repaint();
+        pn_units.revalidate();
+        pn_units.repaint();
     }
 }
