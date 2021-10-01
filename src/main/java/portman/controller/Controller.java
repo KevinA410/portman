@@ -168,6 +168,15 @@ public class Controller {
 
     // Portafolio's functions
     private void generatePortafolio(Portafolio p) {
+        File f = new File(basePath);
+
+        if(!f.exists()) {
+            if(!setPath()){
+                return;
+            }
+            getPath();
+        }
+
         PDFController pdfc = new PDFController(student, p, savePath);
         pdfc.createPortafolio();
     }
@@ -230,7 +239,7 @@ public class Controller {
         }
     }
 
-    private void setPath() {
+    private boolean setPath() {
         try {
             File base = new File(basePath);
             JFileChooser fchooser = new JFileChooser();
@@ -248,9 +257,14 @@ public class Controller {
 
                 bw.write(selected.getAbsolutePath());
                 bw.close();
+
+                return true;
+            } else{
+                return false;
             }
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
